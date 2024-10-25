@@ -18,6 +18,12 @@
                     <field name="password" string="Secret Key" />
                     <field name="ponto_date_field" />
                 </group>
+                 <!-- New Fields for Manual Bank Account Configuration -->
+                <group name="manual_account_config" string="Manual Bank Account">
+                    <field name="use_manual_account" string="Use Manual Bank Account" />
+                    <field name="manual_bank_account" string="Bank Account"
+                        attrs="{'readonly':[('use_manual_account','=',False)]}" />
+                </group>
             </xpath>
         </field>
     </record>
