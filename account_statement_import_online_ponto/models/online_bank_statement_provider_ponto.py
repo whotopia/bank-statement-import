@@ -16,6 +16,10 @@ _logger = logging.getLogger(__name__)
 class OnlineBankStatementProviderPonto(models.Model):
     _inherit = "online.bank.statement.provider"
 
+# Add the new custom fields
+    use_manual_account = fields.Boolean(string="Use Manual Bank Account")
+    manual_bank_account = fields.Char(string="Manual Bank Account")
+
     ponto_date_field = fields.Selection(
         [
             ("execution_date", "Execution Date"),
@@ -76,7 +80,13 @@ class OnlineBankStatementProviderPonto(models.Model):
         lines = []
         interface_model = self.env["ponto.interface"]
         access_data = interface_model._login(self.username, self.password)
+        
+        # Use manually configured account if set, else use self.account_number
+        bank_account = self.manual_bank_account if self.use_manual_account and self.manual_bank_account else self.account_number
+        
+        # Set access account with the selected bank account
         interface_model._set_access_account(access_data, self.account_number)
+        
         latest_identifier = False
         transactions = interface_model._get_transactions(access_data, latest_identifier)
         while transactions:
