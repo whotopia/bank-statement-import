@@ -85,7 +85,7 @@ class OnlineBankStatementProviderPonto(models.Model):
         bank_account = self.manual_bank_account if self.use_manual_account and self.manual_bank_account else self.account_number
         
         # Set access account with the selected bank account
-        interface_model._set_access_account(access_data, self.account_number)
+        interface_model._set_access_account(access_data, bank_account)
         
         latest_identifier = False
         transactions = interface_model._get_transactions(access_data, latest_identifier)
